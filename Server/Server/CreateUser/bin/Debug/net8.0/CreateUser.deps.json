@@ -1,0 +1,36 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v8.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v8.0": {
+      "CreateUser/1.0.0": {
+        "dependencies": {
+          "Server": "1.0.0"
+        },
+        "runtime": {
+          "CreateUser.dll": {}
+        }
+      },
+      "Server/1.0.0": {
+        "runtime": {
+          "Server.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "CreateUser/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Server/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
