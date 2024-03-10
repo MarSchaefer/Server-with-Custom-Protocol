@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "SgRMQ9+o5mTcurVhpVHEvNOQOJn3TahuyqK/Rob5i1Zntx+NQ2WPFGNxGhFckao+iZWEP6ht1zGZwW5yIrqbSg==",
+  "dgSpecHash": "1NkQQ+vSPnLM2wjy0xACvfgwAax52vqVUzbKVitmv1ilA0J2cJJF564zVScGAbz5ckWSGJQkuNoGJvSieIL2Dw==",
   "success": true,
-  "projectFilePath": "G:\\Project-2d-main\\Server\\Server\\Server\\Server.csproj",
+  "projectFilePath": "G:\\Project-2d\\Server\\Server\\Server\\Server.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }
