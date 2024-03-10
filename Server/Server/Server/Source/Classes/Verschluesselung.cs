@@ -14,8 +14,6 @@ namespace Server.Source.Classes
     public class Verschluesselung
     {
         // salt pro server neu rollen (statisch bei einem server)
-        private string _salt = "1234"; // hash(klartext + salt) => das was auf server gespeichert ist
-
         private Random _random = new Random();
 
         public Verschluesselung() {

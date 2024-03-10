@@ -8,8 +8,6 @@
 
         void CreateDefaultFile(string fileDoesNotExsistWaring);
 
-        string GetUniqueKey();
-
         T GetDefaultValue();
     }
 }

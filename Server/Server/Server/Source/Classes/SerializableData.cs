@@ -5,7 +5,6 @@ namespace Server.Source.Classes
     public class SerializableData<TData>: ISerializable<TData>
     {
         private readonly Serializer<TData> _serializer;
-        private readonly string _uniqueKey;
         private readonly string _filePath;
 
         public SerializableData(string filePath, string uniqueKey, TData defaultValue)
@@ -22,11 +21,6 @@ namespace Server.Source.Classes
         public TData GetDefaultValue()
         {
             return _serializer.GetDefaultValue();
-        }
-
-        public string GetUniqueKey()
-        {
-            return _uniqueKey;
         }
 
         public TData LoadValue()

@@ -69,10 +69,10 @@ namespace Server.Source.Classes
             };
         }
 
-        private TData? DeserializeValue(string valueToDeserialize)
+        private TData DeserializeValue(string valueToDeserialize)
         {
-            Dictionary<string, TData?>? dictionaryWithValueToDeserialize = 
-                JsonSerializer.Deserialize<Dictionary<string, TData?>>(
+            Dictionary<string, TData> dictionaryWithValueToDeserialize = 
+                JsonSerializer.Deserialize<Dictionary<string, TData>>(
                     valueToDeserialize,
                     Serializer<TData>._jsonSerializeOptions
                 );
@@ -82,7 +82,7 @@ namespace Server.Source.Classes
                 return _defaultValue;
             }
 
-            if (dictionaryWithValueToDeserialize.TryGetValue(this._uniqueKey, out TData? value))
+            if (dictionaryWithValueToDeserialize.TryGetValue(this._uniqueKey, out TData value))
             {
                 return value;
             }

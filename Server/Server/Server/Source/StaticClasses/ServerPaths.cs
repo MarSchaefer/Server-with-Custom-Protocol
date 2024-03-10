@@ -6,7 +6,7 @@
         private static readonly string _serverClientDataFilePath = @"\Data\clients.json";
         private static readonly string _serverDataDirectory = @"\Data\";
 
-        private static string? GetPathOfProject()
+        private static string GetPathOfProject()
         {
             string pathOfBinarys = Path.GetDirectoryName(Path.GetDirectoryName(Directory.GetCurrentDirectory()));
             return Directory.GetParent(pathOfBinarys).Parent.ToString() + @"\Server";
