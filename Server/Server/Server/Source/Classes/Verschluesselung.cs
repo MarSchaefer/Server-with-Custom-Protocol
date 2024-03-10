@@ -42,7 +42,7 @@ namespace Server.Source.Classes
 
             byte[] hash;
 
-            using (SHA512 shaM = new SHA512Managed())
+            using (SHA512 shaM = SHA512.Create())
             {
                 hash = shaM.ComputeHash(Encoding.Default.GetBytes(txt));
             }
