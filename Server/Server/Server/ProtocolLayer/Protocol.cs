@@ -72,32 +72,32 @@ namespace Server.ProtocolLayer
     {
         public const int _DataPackageDataSizeInByte = 64;
 
-        public static void Test()
-        {
-            LoginData loginDataToSend = new LoginData("Bob1337", "sudo");
-            byte[][] dataPackageByteSequence = ConvertStructDataToByteSequence(loginDataToSend);
-            //// Bytes Senden ---->
+        //public static void Test()
+        //{
+        //    LoginData loginDataToSend = new LoginData("Bob1337", "sudo");
+        //    byte[][] dataPackageByteSequence = ConvertStructDataToByteSequence(loginDataToSend);
+        //    //// Bytes Senden ---->
 
-            //// Bytes Empfangen <----
-            PackageBundler packageBundler = new PackageBundler();
-            for (int i = 0; i < dataPackageByteSequence.Length; i++)
-            {
-                PackageBundle? dataPackageBundle = packageBundler.InsertAndRetrieveCompletePackages(dataPackageByteSequence[i]);
+        //    //// Bytes Empfangen <----
+        //    PackageBundler packageBundler = new PackageBundler();
+        //    for (int i = 0; i < dataPackageByteSequence.Length; i++)
+        //    {
+        //        PackageBundle? dataPackageBundle = packageBundler.InsertAndRetrieveCompletePackages(dataPackageByteSequence[i]);
 
-                if (dataPackageBundle != null)
-                {
-                    // MessageDispatcher, !TypeConverter!
-                    switch (dataPackageBundle.StructType)
-                    {
-                        case StructTypes.LoginData:
-                            LoginData loginDataToRetrieve = ConvertDataBundleToStruct<LoginData>(dataPackageBundle);
-                            Console.WriteLine(loginDataToRetrieve.username);
-                            Console.WriteLine(loginDataToRetrieve.password);
-                            break;
-                    }
-                }
-            }
-        }
+        //        if (dataPackageBundle != null)
+        //        {
+        //            // MessageDispatcher, !TypeConverter!
+        //            switch (dataPackageBundle.StructType)
+        //            {
+        //                case StructTypes.LoginData:
+        //                    LoginData loginDataToRetrieve = ConvertDataBundleToStruct<LoginData>(dataPackageBundle);
+        //                    Console.WriteLine(loginDataToRetrieve.username);
+        //                    Console.WriteLine(loginDataToRetrieve.password);
+        //                    break;
+        //            }
+        //        }
+        //    }
+        //}
 
         public static byte[][] ConvertStructDataToByteSequence<T>(T structData) where T : struct
         {
