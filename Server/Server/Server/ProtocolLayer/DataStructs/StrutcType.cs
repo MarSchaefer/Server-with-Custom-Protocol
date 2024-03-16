@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Server.ProtocolLayer.DataStructs
 {
-    public enum StructTypes
+    public enum StructType
     {
         LoginData,
     }

@@ -15,7 +15,7 @@ namespace Server.ProtocolLayer
         public int countOfPackagesInGroup;
         public int sequenceNumber;
         public long dataPackageGroupId;
-        public StructTypes structType;
+        public StructType structType;
 
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = ProtocolLayerFunctions._DataPackageDataSizeInByte)]
         public byte[] data;
@@ -26,7 +26,7 @@ namespace Server.ProtocolLayer
             int countOfPackagesInGroup,
             int sequenceNumber,
             long dataPackageGroupId,
-            StructTypes structType)
+            StructType structType)
         {
             this.data = data;
             this.countOfPackagesInGroup = countOfPackagesInGroup;
@@ -42,6 +42,7 @@ namespace Server.ProtocolLayer
         public DataPackage[] dataPackages;
         public int countOfMaximalPackagesInGroup;
         private int countOfInsertedPackagesInGroup = 0;
+        // TODO: Time to Expire
 
         public PackageGroupBuffer(int countOfPackagesInGroup, DataPackage firstPackage)
         {
@@ -126,6 +127,21 @@ namespace Server.ProtocolLayer
             }
         }
 
+        public static T ConvertDataBundleToStruct<T>(PackageBundle dataBundle) where T : struct
+        {
+            DataPackage[] dataPackages = dataBundle.DataPackages;
+            int extraBytesToIgnore = dataPackages.Last().countOfExtraBytesToIgnore;
+
+            if (extraBytesToIgnore != 0)
+            {
+                // Falls Übertragungspackete kleiner oder größer sind als das Gesamtpacket für Struct:
+                return BuildStructure<T>(dataPackages, extraBytesToIgnore);
+            }
+
+            // Falls Übertragungspacket genau so groß wie das Gesamtpacket für Struct ist:
+            return BuildStructure<T>(dataPackages);
+        }
+
         private static byte[][] ConvertDataPackagesToByteSequence(DataPackage[] dataPackages)
         {
             byte[][] dataPackageByteSequence = new byte[dataPackages.Length][];
@@ -144,21 +160,6 @@ namespace Server.ProtocolLayer
             long packageGroupId = DateTime.Now.Ticks;
 
             return BuildDataPackagesWithMatchedByteSize(structureInBytes, countOfExtraBytesToMatchPackageSize, packageGroupId);
-        }
-
-        private static T ConvertDataBundleToStruct<T>(PackageBundle dataBundle) where T : struct
-        {
-            DataPackage[] dataPackages = dataBundle.DataPackages;
-            int extraBytesToIgnore = dataPackages.Last().countOfExtraBytesToIgnore;
-
-            if (extraBytesToIgnore != 0)
-            {
-                // Falls Übertragungspackete kleiner oder größer sind als das Gesamtpacket für Struct:
-                return BuildStructure<T>(dataPackages, extraBytesToIgnore);
-            }
-
-            // Falls Übertragungspacket genau so groß wie das Gesamtpacket für Struct ist:
-            return BuildStructure<T>(dataPackages);
         }
 
         private static byte[] ConvertStructureToBytes<T>(T structure) where T : struct
@@ -210,7 +211,7 @@ namespace Server.ProtocolLayer
                     countOfPackages,
                     packageIndex + 1,
                     packageGroupId,
-                    StructTypes.LoginData);
+                    StructType.LoginData);
             }
 
             return dataPackages;
