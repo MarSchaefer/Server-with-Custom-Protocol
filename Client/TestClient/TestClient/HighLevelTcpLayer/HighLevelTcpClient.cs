@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net;
 using System.Net.Http;
 using System.Net.Sockets;
 using System.Text;
@@ -31,11 +30,6 @@ namespace Server.HighLevelTcpLayer
             this.Close();
         }
 
-        //public void Connect(IPAddress ipAdress, int port)
-        //{
-        //    this._tcpClient.Connect(ipAdress, port);
-        //}
-
         public void Close()
         {
             this._tcpClient?.Close();
@@ -44,7 +38,7 @@ namespace Server.HighLevelTcpLayer
 
         public async Task<DataStructWithTypeInfo> ReadAsync()
         {
-            byte[] buffer = new byte[ProtocolLayerFunctions.SizeOfDataPackage];
+            byte[] buffer = new byte[ProtocolLayerFunctions._DataPackageDataSizeInByte];
             PackageBundle packageBundle = null;
 
             while (packageBundle == null)

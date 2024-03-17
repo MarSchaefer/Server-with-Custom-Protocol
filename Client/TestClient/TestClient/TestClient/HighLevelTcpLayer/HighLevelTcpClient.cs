@@ -1,14 +1,8 @@
 ﻿using Server.ProtocolLayer;
 using Server.ProtocolLayer.DataStructs;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Net.Sockets;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace Server.HighLevelTcpLayer
 {
@@ -31,10 +25,10 @@ namespace Server.HighLevelTcpLayer
             this.Close();
         }
 
-        //public void Connect(IPAddress ipAdress, int port)
-        //{
-        //    this._tcpClient.Connect(ipAdress, port);
-        //}
+        public void Connect(IPAddress ipAdress, int port)
+        {
+            this._tcpClient.Connect(ipAdress, port);
+        }
 
         public void Close()
         {
@@ -49,7 +43,14 @@ namespace Server.HighLevelTcpLayer
 
             while (packageBundle == null)
             {
-                await this._stream.ReadAsync(buffer, 0, buffer.Length);
+                try
+                {
+                    await this._stream.ReadAsync(buffer, 0, buffer.Length);
+                }
+                catch (Exception ex) 
+                {
+                    await Console.Out.WriteLineAsync(ex.ToString());
+                }
                 packageBundle = _packageBundler.InsertAndRetrieveCompletePackages(buffer);
             }
 

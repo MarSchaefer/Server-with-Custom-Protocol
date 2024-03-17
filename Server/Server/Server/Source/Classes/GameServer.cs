@@ -76,34 +76,34 @@ namespace Server.Source.Classes
 
             try
             {
-                DataStructWithTypeInfo dataStructWithTypeInfo = await tcpClient.ReadAsync();
-
-                switch (dataStructWithTypeInfo.StructType)
+                while (true)
                 {
-                    case StructType.LoginData:
-                        LoginData loginData = (LoginData)dataStructWithTypeInfo.StructData;
+                    DataStructWithTypeInfo dataStructWithTypeInfo = await tcpClient.ReadAsync();
 
-                        foreach (KeyValuePair<string, HighLevelTcpClient> clientKeyValuePair in _clients)
-                        {
-                            // only other clients
-                            if (clientKeyValuePair.Key != clientId)
+                    switch (dataStructWithTypeInfo.StructType)
+                    {
+                        case StructType.LoginData:
+                            LoginData loginData = (LoginData)dataStructWithTypeInfo.StructData;
+
+                            foreach (KeyValuePair<string, HighLevelTcpClient> clientKeyValuePair in _clients)
                             {
+                                // only other clients
+                                //if (clientKeyValuePair.Key != clientId)
+                                //{
                                 await clientKeyValuePair.Value.WriteAsync(dataStructWithTypeInfo);
+                                //}
                             }
-                        }
 
-                        break;
+                            break;
+                    }
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Client {clientId} getrennt: {ex.Message}");
-            }
-            finally
-            {
                 tcpClient.Close();
                 _clients.TryRemove(clientId, out _);
-                Console.WriteLine($"Client {clientId} getrennt.");
+                Console.WriteLine($"Client {clientId} getrennt: {ex.Message}");
+
             }
         }
     }

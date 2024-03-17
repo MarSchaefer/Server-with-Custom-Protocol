@@ -1,0 +1,15 @@
+G:\Project-2d\Client\TestClient\TestClient\TestClient\bin\Debug\net8.0\TestClient.exe
+G:\Project-2d\Client\TestClient\TestClient\TestClient\bin\Debug\net8.0\TestClient.deps.json
+G:\Project-2d\Client\TestClient\TestClient\TestClient\bin\Debug\net8.0\TestClient.runtimeconfig.json
+G:\Project-2d\Client\TestClient\TestClient\TestClient\bin\Debug\net8.0\TestClient.dll
+G:\Project-2d\Client\TestClient\TestClient\TestClient\bin\Debug\net8.0\TestClient.pdb
+G:\Project-2d\Client\TestClient\TestClient\TestClient\obj\Debug\net8.0\TestClient.GeneratedMSBuildEditorConfig.editorconfig
+G:\Project-2d\Client\TestClient\TestClient\TestClient\obj\Debug\net8.0\TestClient.AssemblyInfoInputs.cache
+G:\Project-2d\Client\TestClient\TestClient\TestClient\obj\Debug\net8.0\TestClient.AssemblyInfo.cs
+G:\Project-2d\Client\TestClient\TestClient\TestClient\obj\Debug\net8.0\TestClient.csproj.CoreCompileInputs.cache
+G:\Project-2d\Client\TestClient\TestClient\TestClient\obj\Debug\net8.0\TestClient.sourcelink.json
+G:\Project-2d\Client\TestClient\TestClient\TestClient\obj\Debug\net8.0\TestClient.dll
+G:\Project-2d\Client\TestClient\TestClient\TestClient\obj\Debug\net8.0\refint\TestClient.dll
+G:\Project-2d\Client\TestClient\TestClient\TestClient\obj\Debug\net8.0\TestClient.pdb
+G:\Project-2d\Client\TestClient\TestClient\TestClient\obj\Debug\net8.0\TestClient.genruntimeconfig.cache
+G:\Project-2d\Client\TestClient\TestClient\TestClient\obj\Debug\net8.0\ref\TestClient.dll
