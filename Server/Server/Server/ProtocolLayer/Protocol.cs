@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System;
 using Server.ProtocolLayer.DataStructs;
+using Server.Cryptography;
 
 namespace Server.ProtocolLayer
 {
