@@ -1,11 +1,5 @@
 ﻿using System.Runtime.InteropServices;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Linq;
-using System.Text;
-using System;
 using Server.ProtocolLayer.DataStructs;
-using Server.Cryptography;
 
 namespace Server.ProtocolLayer
 {
@@ -18,7 +12,7 @@ namespace Server.ProtocolLayer
         public long dataPackageGroupId;
         public StructType structType;
 
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = ProtocolLayerFunctions.DataPackageDataSizeInByte)]
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = ProtocolLayerFunctions._DataPackageDataSizeInByte)]
         public byte[] data;
 
         public DataPackage(
@@ -72,7 +66,7 @@ namespace Server.ProtocolLayer
 
     public static class ProtocolLayerFunctions
     {
-        public const int DataPackageDataSizeInByte = 64;
+        public const int _DataPackageDataSizeInByte = 64;
 
         public static readonly int SizeOfDataPackage = System.Runtime.InteropServices.Marshal.SizeOf(typeof(DataPackage));
 
@@ -103,9 +97,9 @@ namespace Server.ProtocolLayer
         //    }
         //}
 
-        public static byte[][] ConvertStructDataToByteSequence<T>(T structData) where T : struct
+        public static byte[][] ConvertStructDataToByteSequence<T>(T structData, StructType structType) where T : struct
         {
-            DataPackage[] dataPackages = ConvertStructDataToDataPackages(structData);
+            DataPackage[] dataPackages = ConvertStructDataToDataPackages(structData, structType);
             byte[][] dataPackageByteSequence = ConvertDataPackagesToByteSequence(dataPackages);
             return dataPackageByteSequence;
         }
@@ -155,14 +149,14 @@ namespace Server.ProtocolLayer
             return dataPackageByteSequence;
         }
 
-        private static DataPackage[] ConvertStructDataToDataPackages<T>(T dataStruct) where T : struct
+        private static DataPackage[] ConvertStructDataToDataPackages<T>(T dataStruct, StructType structType) where T : struct
         {
             byte[] structureInBytes = ConvertStructureToBytes(dataStruct);
             int sizeOfStructureInBytes = structureInBytes.Length;
-            int countOfExtraBytesToMatchPackageSize = (DataPackageDataSizeInByte - (sizeOfStructureInBytes % DataPackageDataSizeInByte)) % DataPackageDataSizeInByte;
+            int countOfExtraBytesToMatchPackageSize = (_DataPackageDataSizeInByte - (sizeOfStructureInBytes % _DataPackageDataSizeInByte)) % _DataPackageDataSizeInByte;
             long packageGroupId = DateTime.Now.Ticks;
 
-            return BuildDataPackagesWithMatchedByteSize(structureInBytes, countOfExtraBytesToMatchPackageSize, packageGroupId);
+            return BuildDataPackagesWithMatchedByteSize(structureInBytes, countOfExtraBytesToMatchPackageSize, packageGroupId, structType);
         }
 
         private static byte[] ConvertStructureToBytes<T>(T structure) where T : struct
@@ -186,23 +180,24 @@ namespace Server.ProtocolLayer
         private static DataPackage[] BuildDataPackagesWithMatchedByteSize(
             byte[] structureInBytes,
             int countOfExtraBytesToMatchPackageSize,
-            long packageGroupId)
+            long packageGroupId,
+            StructType structType)
         {
             int sizeOfStructureInBytes = structureInBytes.Length;
             byte[] bytesFilledWithZerosAtEnd = new byte[structureInBytes.Length + countOfExtraBytesToMatchPackageSize];
-            int countOfPackages = bytesFilledWithZerosAtEnd.Length / DataPackageDataSizeInByte;
+            int countOfPackages = bytesFilledWithZerosAtEnd.Length / _DataPackageDataSizeInByte;
 
             Array.Copy(structureInBytes, bytesFilledWithZerosAtEnd, sizeOfStructureInBytes);
 
             DataPackage[] dataPackages = new DataPackage[countOfPackages];
             bool isInLastLoopCircle;
 
-            for (int offset = 0, packageIndex = 0; offset < bytesFilledWithZerosAtEnd.Length; offset += DataPackageDataSizeInByte, packageIndex++)
+            for (int offset = 0, packageIndex = 0; offset < bytesFilledWithZerosAtEnd.Length; offset += _DataPackageDataSizeInByte, packageIndex++)
             {
-                isInLastLoopCircle = (offset + DataPackageDataSizeInByte) == bytesFilledWithZerosAtEnd.Length;
-                byte[] dataBlock = new byte[DataPackageDataSizeInByte];
+                isInLastLoopCircle = (offset + _DataPackageDataSizeInByte) == bytesFilledWithZerosAtEnd.Length;
+                byte[] dataBlock = new byte[_DataPackageDataSizeInByte];
 
-                Array.Copy(bytesFilledWithZerosAtEnd, offset, dataBlock, 0, DataPackageDataSizeInByte);
+                Array.Copy(bytesFilledWithZerosAtEnd, offset, dataBlock, 0, _DataPackageDataSizeInByte);
 
                 int countOfExtraBytesToIgnore = isInLastLoopCircle ? countOfExtraBytesToMatchPackageSize : 0;
 
@@ -212,7 +207,7 @@ namespace Server.ProtocolLayer
                     countOfPackages,
                     packageIndex + 1,
                     packageGroupId,
-                    StructType.LoginData);
+                    structType);
             }
 
             return dataPackages;
@@ -222,18 +217,18 @@ namespace Server.ProtocolLayer
             DataPackage[] dataPackages,
             int countOfExtraBytesToIgnore) where T : struct
         {
-            byte[] accumulatedBytes = new byte[(dataPackages.Length * DataPackageDataSizeInByte) - countOfExtraBytesToIgnore];
+            byte[] accumulatedBytes = new byte[(dataPackages.Length * _DataPackageDataSizeInByte) - countOfExtraBytesToIgnore];
 
             // Falls Übertragungspackete kleiner sind als das Gesamtpacket für Struct:
-            if (DataPackageDataSizeInByte < accumulatedBytes.Length)
+            if (_DataPackageDataSizeInByte < accumulatedBytes.Length)
             {
                 for (int i = 0; i < dataPackages.Length - 1; i++)
                 {
                     byte[] data = dataPackages[i].data;
-                    Array.Copy(data, 0, accumulatedBytes, i * DataPackageDataSizeInByte, DataPackageDataSizeInByte);
+                    Array.Copy(data, 0, accumulatedBytes, i * _DataPackageDataSizeInByte, _DataPackageDataSizeInByte);
                 }
 
-                int lastIndex = (dataPackages.Length - 1) * DataPackageDataSizeInByte;
+                int lastIndex = (dataPackages.Length - 1) * _DataPackageDataSizeInByte;
                 Array.Copy(dataPackages.Last().data, 0, accumulatedBytes, lastIndex, countOfExtraBytesToIgnore);
                 return ConvertBytesToStructure<T>(accumulatedBytes);
             }
@@ -247,11 +242,11 @@ namespace Server.ProtocolLayer
         private static T BuildStructure<T>(
            DataPackage[] dataPackages) where T : struct
         {
-            byte[] accumulatedBytes = new byte[dataPackages.Length * DataPackageDataSizeInByte];
+            byte[] accumulatedBytes = new byte[dataPackages.Length * _DataPackageDataSizeInByte];
             for (int i = 0; i < dataPackages.Length; i++)
             {
                 byte[] data = dataPackages[i].data;
-                Array.Copy(data, 0, accumulatedBytes, i * DataPackageDataSizeInByte, DataPackageDataSizeInByte);
+                Array.Copy(data, 0, accumulatedBytes, i * _DataPackageDataSizeInByte, _DataPackageDataSizeInByte);
             }
 
             return ConvertBytesToStructure<T>(accumulatedBytes);

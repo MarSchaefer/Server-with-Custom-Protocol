@@ -1,9 +1,4 @@
 ﻿using System.Runtime.InteropServices;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Linq;
-using System.Text;
-using System;
 using Server.ProtocolLayer.DataStructs;
 
 namespace Server.ProtocolLayer
@@ -102,9 +97,9 @@ namespace Server.ProtocolLayer
         //    }
         //}
 
-        public static byte[][] ConvertStructDataToByteSequence<T>(T structData) where T : struct
+        public static byte[][] ConvertStructDataToByteSequence<T>(T structData, StructType structType) where T : struct
         {
-            DataPackage[] dataPackages = ConvertStructDataToDataPackages(structData);
+            DataPackage[] dataPackages = ConvertStructDataToDataPackages(structData, structType);
             byte[][] dataPackageByteSequence = ConvertDataPackagesToByteSequence(dataPackages);
             return dataPackageByteSequence;
         }
@@ -154,14 +149,14 @@ namespace Server.ProtocolLayer
             return dataPackageByteSequence;
         }
 
-        private static DataPackage[] ConvertStructDataToDataPackages<T>(T dataStruct) where T : struct
+        private static DataPackage[] ConvertStructDataToDataPackages<T>(T dataStruct, StructType structType) where T : struct
         {
             byte[] structureInBytes = ConvertStructureToBytes(dataStruct);
             int sizeOfStructureInBytes = structureInBytes.Length;
             int countOfExtraBytesToMatchPackageSize = (_DataPackageDataSizeInByte - (sizeOfStructureInBytes % _DataPackageDataSizeInByte)) % _DataPackageDataSizeInByte;
             long packageGroupId = DateTime.Now.Ticks;
 
-            return BuildDataPackagesWithMatchedByteSize(structureInBytes, countOfExtraBytesToMatchPackageSize, packageGroupId);
+            return BuildDataPackagesWithMatchedByteSize(structureInBytes, countOfExtraBytesToMatchPackageSize, packageGroupId, structType);
         }
 
         private static byte[] ConvertStructureToBytes<T>(T structure) where T : struct
@@ -185,7 +180,8 @@ namespace Server.ProtocolLayer
         private static DataPackage[] BuildDataPackagesWithMatchedByteSize(
             byte[] structureInBytes,
             int countOfExtraBytesToMatchPackageSize,
-            long packageGroupId)
+            long packageGroupId,
+            StructType structType)
         {
             int sizeOfStructureInBytes = structureInBytes.Length;
             byte[] bytesFilledWithZerosAtEnd = new byte[structureInBytes.Length + countOfExtraBytesToMatchPackageSize];
@@ -211,7 +207,7 @@ namespace Server.ProtocolLayer
                     countOfPackages,
                     packageIndex + 1,
                     packageGroupId,
-                    StructType.LoginData);
+                    structType);
             }
 
             return dataPackages;

@@ -1,4 +1,5 @@
-﻿using Server.HighLevelTcpLayer;
+﻿using Server.Cryptography.Asymmetric;
+using Server.HighLevelTcpLayer;
 using Server.ProtocolLayer;
 using Server.ProtocolLayer.DataStructs;
 using Server.Source.DataModel;
@@ -82,18 +83,47 @@ namespace Server.Source.Classes
 
                     switch (dataStructWithTypeInfo.StructType)
                     {
-                        case StructType.LoginData:
-                            LoginData loginData = (LoginData)dataStructWithTypeInfo.StructData;
+                        //case StructType.LoginData:
+                        //    LoginData loginData = (LoginData)dataStructWithTypeInfo.StructData;
 
-                            foreach (KeyValuePair<string, HighLevelTcpClient> clientKeyValuePair in _clients)
-                            {
-                                // only other clients
-                                //if (clientKeyValuePair.Key != clientId)
-                                //{
-                                await clientKeyValuePair.Value.WriteAsync(dataStructWithTypeInfo);
-                                //}
-                            }
+                        //    foreach (KeyValuePair<string, HighLevelTcpClient> clientKeyValuePair in _clients)
+                        //    {
+                        //        // only other clients
+                        //        //if (clientKeyValuePair.Key != clientId)
+                        //        //{
+                        //        await clientKeyValuePair.Value.WriteAsync(loginData);
+                        //        //}
+                        //    }
 
+                        //    break;
+
+                        // TODO: Switch Auslagern
+
+                        case StructType.RsaPublicKeyExchangeData:
+                            // LOGIN
+                            RsaPublicKeyExchangeData publicKeyOfClientData = (RsaPublicKeyExchangeData)dataStructWithTypeInfo.StructData;
+                            byte[] publicKeyOfClient = publicKeyOfClientData.publicKey;
+
+                            AsymmetricKeyPair asymmetricKeyPair = AsymmetricKeyGenerator.GenerateEncryptionKeyPair();
+                            RsaPublicKeyExchangeData publicKeyExchangeData = new RsaPublicKeyExchangeData(asymmetricKeyPair.PublicKey);
+
+                            await tcpClient.WriteAsync(publicKeyExchangeData);
+
+                            await Console.Out.WriteLineAsync("Server Key: " + asymmetricKeyPair.PublicKey.Length);
+                            await Console.Out.WriteLineAsync("Client Key: " + publicKeyOfClient.Length);
+
+                            //------------------------------------------------------------------------
+                            Random random = new Random();
+                            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+                            string salt = _serverConfig.Salt;
+                            string randomString = new string(Enumerable.Repeat(chars, 50).Select(s => s[random.Next(s.Length)]).ToArray());
+
+
+
+                            Verschluesselung.StringToSha512(password + salt);
+
+                            //------------------------------------------------------------------------
                             break;
                     }
                 }

@@ -9,7 +9,6 @@
 
   <ItemGroup>
     <Folder Include="HighLevelTcpLayer\" />
-    <Folder Include="ProtocolLayer\DataStructures\" />
   </ItemGroup>
 
 </Project>

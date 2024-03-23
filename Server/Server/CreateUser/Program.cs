@@ -30,7 +30,6 @@ public sealed class Program
         return Verschluesselung.StringToSha512(password + salt);
     }
 
-
     public static (string userName, string password) EnterUserNameAndPassword()
     {
         Console.Write("Username: ");
