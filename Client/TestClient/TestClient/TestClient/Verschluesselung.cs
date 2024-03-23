@@ -1,10 +1,5 @@
-﻿using Server.Source.DataModel;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Server.Source.Classes
 {
@@ -18,19 +13,6 @@ namespace Server.Source.Classes
 
         public Verschluesselung() {
         
-        }
-
-        private string makeChallenge(RegisteredUser registeredUserData)
-        {
-            //StringToSha512(klartextpasswort + _salt); // Server hat das passwort mit salt gespeichert
-            string gehashtespasswortMitSalt = registeredUserData.Password; 
-
-            //Server baut challange (zb random nummer )
-            _random = new Random();
-            string challenge = _random.Next().ToString();
-
-            string challengeSolution = StringToSha512(gehashtespasswortMitSalt + challenge);
-            return challengeSolution;
         }
 
         public static string StringToSha512(string txt)

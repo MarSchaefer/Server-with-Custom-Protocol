@@ -72,6 +72,13 @@ namespace Server.Source.Classes
 
                     switch (dataStructWithTypeInfo.StructType)
                     {
+                        case StructType.LoginData:
+                            LoginData loginData2 = (LoginData)dataStructWithTypeInfo.StructData;
+                            // dataStructWithTypeInfo
+                            await tcpClient.WriteAsync(loginData2);
+                            break;
+
+                        #region neuer code
                         case StructType.RsaPublicKeyExchangeData:
                             // Lesen Public Key von Client
 
@@ -150,6 +157,7 @@ namespace Server.Source.Classes
                             LoginController._loggedInUsers.TryAdd(loggedInUser.Value.Key, loggedInUser.Value.Value);
                             //------------ Anmeldeprozess >
                             break;
+                            #endregion
                     }
                 }
             }

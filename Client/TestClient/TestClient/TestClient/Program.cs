@@ -17,13 +17,13 @@ class Program
             tcpClient.Connect(IPAddress.Parse("192.168.2.30"), 5600);
             HighLevelTcpClient highLevelTcpClient = new HighLevelTcpClient(tcpClient);
 
-            string clientToken = LoginAsync(highLevelTcpClient).GetAwaiter().GetResult();
-            Console.WriteLine(clientToken);
+           // string clientToken = LoginAsync(highLevelTcpClient).GetAwaiter().GetResult();
+           // Console.WriteLine(clientToken);
 
-            //var readDataTask = ReadDataAsync(highLevelTcpClient);
-            //var writeDataTask = WriteDataAsync(highLevelTcpClient);
+            var readDataTask = ReadDataAsync(highLevelTcpClient);
+            var writeDataTask = WriteDataAsync(highLevelTcpClient);
 
-            //Task.WaitAll(readDataTask, writeDataTask);
+            Task.WaitAll(readDataTask, writeDataTask);
         }
 
         /// <summary> Gibt Token zurück </summary>
@@ -80,35 +80,35 @@ class Program
 
 
         // Zum Testen
-        //public static async Task WriteDataAsync(HighLevelTcpClient highLevelTcpClient)
-        //{
-        //    while (true)
-        //    {
-        //        LoginData loginData = new LoginData("bob", "1337");
+        public static async Task WriteDataAsync(HighLevelTcpClient highLevelTcpClient)
+        {
+            while (true)
+            {
+                LoginData loginData = new LoginData("bob");
 
-        //        DataStructWithTypeInfo dataStructWithTypeInfo =
-        //            new DataStructWithTypeInfo(loginData, StructType.LoginData);
+                //DataStructWithTypeInfo dataStructWithTypeInfo =
+                //    new DataStructWithTypeInfo(loginData, StructType.LoginData);
 
-        //        await highLevelTcpClient.WriteAsync(dataStructWithTypeInfo);
-        //        await Task.Delay(1000);
-        //    }
-        //}
+                await highLevelTcpClient.WriteAsync(loginData);
+                await Task.Delay(1000);
+            }
+        }
 
-        //public static async Task ReadDataAsync(HighLevelTcpClient highLevelTcpClient)
-        //{
-        //    while (true)
-        //    {
-        //        DataStructWithTypeInfo dataStructWithTypeInfo = await highLevelTcpClient.ReadAsync();
+        public static async Task ReadDataAsync(HighLevelTcpClient highLevelTcpClient)
+        {
+            while (true)
+            {
+                DataStructWithTypeInfo dataStructWithTypeInfo = await highLevelTcpClient.ReadAsync();
 
-        //        switch (dataStructWithTypeInfo.StructType)
-        //        {
-        //            case StructType.LoginData:
-        //                LoginData loginData = (LoginData)dataStructWithTypeInfo.StructData;
-        //                    await Console.Out.WriteLineAsync(loginData.username + " " + loginData.password);
-        //                break;
-        //        }
-        //    }
-        //}
+                switch (dataStructWithTypeInfo.StructType)
+                {
+                    case StructType.LoginData:
+                        LoginData loginData = (LoginData)dataStructWithTypeInfo.StructData;
+                        await Console.Out.WriteLineAsync(loginData.username);
+                        break;
+                }
+            }
+        }
     }
 
 }
