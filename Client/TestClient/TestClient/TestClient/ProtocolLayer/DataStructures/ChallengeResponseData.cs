@@ -8,17 +8,16 @@ namespace Server.ProtocolLayer.DataStructs
     public struct ChallengeResponseData : IDataStructure
     {
         [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 500)]
-        public string response;
+        public string result;
 
-        public ChallengeResponseData(string response)
+        public ChallengeResponseData(string result)
         {
-            this.response = response;
+            this.result = result;
         }
 
         public DataStructWithTypeInfo GetDataStructWithTypeInfo()
         {
             return new DataStructWithTypeInfo(this, StructType.ChallengeResponseData);
         }
-
     }
 }

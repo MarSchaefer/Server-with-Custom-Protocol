@@ -94,7 +94,7 @@ namespace Server.HighLevelTcpLayer
         /// <param name="DataStructure"></param>
         /// <param name="publicKey">Öffentlicher Schlüssel vom Anderen</param>
         /// <returns></returns>
-        public async Task WriteAsync(IDataStructure DataStructure, byte[] publicKey)
+        public async Task WriteAsymmetricEncryptedAsync(IDataStructure DataStructure, byte[] publicKey)
         {
             AsymmetricEncryptor asymmetricEncryptor = new AsymmetricEncryptor(publicKey);
 

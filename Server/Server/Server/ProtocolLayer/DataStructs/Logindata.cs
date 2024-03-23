@@ -1,10 +1,5 @@
 ﻿using Server.HighLevelTcpLayer;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using TestClient.ProtocolLayer.DataStructures;
 
 namespace Server.ProtocolLayer.DataStructs
@@ -15,13 +10,9 @@ namespace Server.ProtocolLayer.DataStructs
         [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 30)]
         public string username;
 
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 30)]
-        public string password;
-
-        public LoginData(string username, string password)
+        public LoginData(string username)
         {
             this.username = username;
-            this.password = password;
         }
 
         public DataStructWithTypeInfo GetDataStructWithTypeInfo()

@@ -5,6 +5,7 @@ using Server.Cryptography.Asymmetric;
 using Server.ProtocolLayer.DataStructs;
 using System.Text;
 using Server.Source.Classes;
+using System.Security.Cryptography;
 
 class Program
 {
@@ -26,26 +27,55 @@ class Program
         }
 
         /// <summary> Gibt Token zurück </summary>
-        public static async Task<string> LoginAsync(HighLevelTcpClient highLevelTcpClient)
+        public static async Task<string> LoginAsync(HighLevelTcpClient tcpClient)
         {
+            // Schicken Public Key vom Client (x)
+
+            // Lesen Public Key vom Server (x)
+
+            // LoginData schicken (x)
+
+            // Challenge Lesen (x)
+
+            // Challenge Response Schicken (x)
+
+            // Token Lesen
+
+            // ----------------------------------------------------------------------------------
+            // Public Key austausch
             AsymmetricKeyPair asymmetricKeyPair = AsymmetricKeyGenerator.GenerateEncryptionKeyPair();
             RsaPublicKeyExchangeData publicKeyExchangeData = new RsaPublicKeyExchangeData(asymmetricKeyPair.PublicKey);
             
-            await highLevelTcpClient.WriteAsync(publicKeyExchangeData);
-            DataStructWithTypeInfo dataStructWithTypeInfo = await highLevelTcpClient.ReadAsync();
+            await tcpClient.WriteAsync(publicKeyExchangeData);
+            DataStructWithTypeInfo dataStructWithTypeInfo = await tcpClient.ReadAsync();
 
             RsaPublicKeyExchangeData publicKeyOfServerData = (RsaPublicKeyExchangeData)dataStructWithTypeInfo.StructData;
             byte[] publicKeyOfServer = publicKeyOfServerData.publicKey;
+            RSAParameters privateKey = asymmetricKeyPair.PrivateKey;
 
             await Console.Out.WriteLineAsync("Client Key: " + asymmetricKeyPair.PublicKey.Length);
             await Console.Out.WriteLineAsync("Server Key: " + publicKeyOfServer.Length);
 
+            // ----------------------------------------------------------------------------------
+
             string name = "Joshbert";
             string passwort = "1337Abc";
 
-            Verschluesselung.StringToSha512(password + salt);
+            LoginData loginData = new LoginData(name);
+            await tcpClient.WriteAsymmetricEncryptedAsync(loginData, publicKeyOfServer);
 
-            return await Task.FromResult("");
+            DataStructWithTypeInfo challengeDataAsDataStructWithTypeInfo = await tcpClient.ReadAsymmetricDecryptedAsync(privateKey);
+            ChallengeData challengeData = (ChallengeData)challengeDataAsDataStructWithTypeInfo.StructData;
+
+            string challengeResponseSolution = Verschluesselung.StringToSha512(Verschluesselung.StringToSha512(passwort + challengeData.salt) + challengeData.random);
+
+            ChallengeResponseData challengeResponseData = new ChallengeResponseData(challengeResponseSolution);
+            await tcpClient.WriteAsymmetricEncryptedAsync(challengeResponseData, publicKeyOfServer);
+
+            DataStructWithTypeInfo loginSuccessDataAsDataStructWithTypeInfo = await tcpClient.ReadAsymmetricDecryptedAsync(privateKey);
+            LoginSuccessData loginSuccessData = (LoginSuccessData)loginSuccessDataAsDataStructWithTypeInfo.StructData;
+
+            return loginSuccessData.token;
         }
 
 

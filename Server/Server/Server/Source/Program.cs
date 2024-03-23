@@ -21,16 +21,16 @@ sealed class Program
         return registeredUsers.ToDictionary(key => key.UserName);
     }
 
-    public static GameServer GetInitializedServer()
+    public static LoginController GetInitializedServer()
     {
         ServerConfig serverConfig = LoadServerConfig();
         IReadOnlyDictionary<string, RegisteredUser> registeredUsers = LoadRegisteredUsers();
-        return new GameServer(serverConfig, registeredUsers);
+        return new LoginController(serverConfig, registeredUsers);
     }
 
     public static void Main(string[] args)
     {
-        GameServer gameServer = GetInitializedServer();
+        LoginController gameServer = GetInitializedServer();
         var serverTask = gameServer.RunAsync();
         Task.WaitAll(serverTask);
     }

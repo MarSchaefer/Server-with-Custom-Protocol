@@ -10,13 +10,9 @@ namespace Server.ProtocolLayer.DataStructs
         [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 30)]
         public string username;
 
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 30)]
-        public string password;
-
-        public LoginData(string username, string password)
+        public LoginData(string username)
         {
             this.username = username;
-            this.password = password;
         }
 
         public DataStructWithTypeInfo GetDataStructWithTypeInfo()
