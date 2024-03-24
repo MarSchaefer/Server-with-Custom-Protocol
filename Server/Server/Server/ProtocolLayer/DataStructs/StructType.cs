@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Server.ProtocolLayer.DataStructs
+﻿namespace Server.ProtocolLayer.DataStructs
 {
     public enum StructType
     {
-        LoginData,
-        RsaPublicKeyExchangeData,
-        ChallengeData,
-        ChallengeResponseData,
-        LoginSuccessData,
+        LoginData = 0,
+        RsaPublicKeyExchangeData = 1,
+        ChallengeData = 2,
+        ChallengeResponseData = 3,
+        LoginSuccessData = 4,
     }
 }

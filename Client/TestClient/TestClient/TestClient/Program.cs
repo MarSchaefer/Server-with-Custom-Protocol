@@ -17,13 +17,13 @@ class Program
             tcpClient.Connect(IPAddress.Parse("192.168.2.30"), 5600);
             HighLevelTcpClient highLevelTcpClient = new HighLevelTcpClient(tcpClient);
 
-           // string clientToken = LoginAsync(highLevelTcpClient).GetAwaiter().GetResult();
-           // Console.WriteLine(clientToken);
+            string clientToken = LoginAsync(highLevelTcpClient).GetAwaiter().GetResult();
+            Console.WriteLine(clientToken);
 
-            var readDataTask = ReadDataAsync(highLevelTcpClient);
-            var writeDataTask = WriteDataAsync(highLevelTcpClient);
+            //var readDataTask = ReadDataAsync(highLevelTcpClient);
+            //var writeDataTask = WriteDataAsync(highLevelTcpClient);
 
-            Task.WaitAll(readDataTask, writeDataTask);
+            //Task.WaitAll(readDataTask, writeDataTask);
         }
 
         /// <summary> Gibt Token zurück </summary>
@@ -45,7 +45,7 @@ class Program
             // Public Key austausch
             AsymmetricKeyPair asymmetricKeyPair = AsymmetricKeyGenerator.GenerateEncryptionKeyPair();
             RsaPublicKeyExchangeData publicKeyExchangeData = new RsaPublicKeyExchangeData(asymmetricKeyPair.PublicKey);
-            
+
             await tcpClient.WriteAsync(publicKeyExchangeData);
             DataStructWithTypeInfo dataStructWithTypeInfo = await tcpClient.ReadAsync();
 

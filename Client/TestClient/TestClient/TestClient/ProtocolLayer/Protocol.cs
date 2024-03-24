@@ -70,33 +70,9 @@ namespace Server.ProtocolLayer
 
         public static readonly int SizeOfDataPackage = System.Runtime.InteropServices.Marshal.SizeOf(typeof(DataPackage));
 
-        //public static void Test()
-        //{
-        //    LoginData loginDataToSend = new LoginData("Bob1337", "sudo");
-        //    byte[][] dataPackageByteSequence = ConvertStructDataToByteSequence(loginDataToSend);
-        //    //// Bytes Senden ---->
+        public static readonly int SizeOfAsymmetricEncodedPackage = 256;
 
-        //    //// Bytes Empfangen <----
-        //    PackageBundler packageBundler = new PackageBundler();
-        //    for (int i = 0; i < dataPackageByteSequence.Length; i++)
-        //    {
-        //        PackageBundle? dataPackageBundle = packageBundler.InsertAndRetrieveCompletePackages(dataPackageByteSequence[i]);
-
-        //        if (dataPackageBundle != null)
-        //        {
-        //            // MessageDispatcher, !TypeConverter!
-        //            switch (dataPackageBundle.StructType)
-        //            {
-        //                case StructTypes.LoginData:
-        //                    LoginData loginDataToRetrieve = ConvertDataBundleToStruct<LoginData>(dataPackageBundle);
-        //                    Console.WriteLine(loginDataToRetrieve.username);
-        //                    Console.WriteLine(loginDataToRetrieve.password);
-        //                    break;
-        //            }
-        //        }
-        //    }
-        //}
-
+       
         public static byte[][] ConvertStructDataToByteSequence<T>(T structData, StructType structType) where T : struct
         {
             DataPackage[] dataPackages = ConvertStructDataToDataPackages(structData, structType);
@@ -229,7 +205,8 @@ namespace Server.ProtocolLayer
                 }
 
                 int lastIndex = (dataPackages.Length - 1) * _DataPackageDataSizeInByte;
-                Array.Copy(dataPackages.Last().data, 0, accumulatedBytes, lastIndex, countOfExtraBytesToIgnore);
+                int dataSizeToAppendAtEnd = dataPackages.Last().data.Length - countOfExtraBytesToIgnore;
+                Array.Copy(dataPackages.Last().data, 0, accumulatedBytes, lastIndex, dataSizeToAppendAtEnd);
                 return ConvertBytesToStructure<T>(accumulatedBytes);
             }
 

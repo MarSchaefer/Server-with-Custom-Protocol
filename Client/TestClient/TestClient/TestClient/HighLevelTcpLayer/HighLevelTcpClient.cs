@@ -60,7 +60,7 @@ namespace Server.HighLevelTcpLayer
         {
             AsymmetricDecryptor decryptor = new AsymmetricDecryptor(privateKey);
 
-            byte[] buffer = new byte[ProtocolLayerFunctions.SizeOfDataPackage]; // andere größe
+            byte[] buffer = new byte[ProtocolLayerFunctions.SizeOfAsymmetricEncodedPackage]; // andere größe
             PackageBundle packageBundle = null;
 
             while (packageBundle == null)

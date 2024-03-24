@@ -72,11 +72,11 @@ namespace Server.Source.Classes
 
                     switch (dataStructWithTypeInfo.StructType)
                     {
-                        case StructType.LoginData:
-                            LoginData loginData2 = (LoginData)dataStructWithTypeInfo.StructData;
-                            // dataStructWithTypeInfo
-                            await tcpClient.WriteAsync(loginData2);
-                            break;
+                        //case StructType.LoginData:
+                        //    LoginData loginData2 = (LoginData)dataStructWithTypeInfo.StructData;
+                        //    // dataStructWithTypeInfo
+                        //    await tcpClient.WriteAsync(loginData2);
+                        //    break;
 
                         #region neuer code
                         case StructType.RsaPublicKeyExchangeData:
@@ -136,7 +136,7 @@ namespace Server.Source.Classes
                             // Lese Client Challenge Response
                             DataStructWithTypeInfo challengeResponseDataAsDataStructWithTypeInfo = await tcpClient.ReadAsymmetricDecryptedAsync(privateKey);
                             ChallengeResponseData challengeResponseData = (ChallengeResponseData)challengeResponseDataAsDataStructWithTypeInfo.StructData;
-                            string challengeSolution = Verschluesselung.StringToSha512(registeredUser.Password + random);
+                            string challengeSolution = Verschluesselung.StringToSha512(registeredUser.Password + randomString);
 
                             if (challengeSolution != challengeResponseData.result)
                             {
