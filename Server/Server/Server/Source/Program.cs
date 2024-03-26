@@ -30,8 +30,8 @@ sealed class Program
 
     public static void Main(string[] args)
     {
-        LoginController gameServer = GetInitializedServer();
-        var serverTask = gameServer.RunAsync();
+        LoginController loginController = GetInitializedServer();
+        var serverTask = loginController.RunAsync();
         Task.WaitAll(serverTask);
     }
 }

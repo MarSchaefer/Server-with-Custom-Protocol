@@ -3,7 +3,6 @@ using System.Net.Sockets;
 using System.Net;
 using Server.Cryptography.Asymmetric;
 using Server.ProtocolLayer.DataStructs;
-using System.Text;
 using Server.Source.Classes;
 using System.Security.Cryptography;
 

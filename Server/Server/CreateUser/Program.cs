@@ -27,7 +27,7 @@ public sealed class Program
 
     public static string HashPasswordWithSalt(string password, string salt)
     {
-        return Verschluesselung.StringToSha512(password + salt);
+        return HashAlgorithms.StringToSha512(password + salt);
     }
 
     public static (string userName, string password) EnterUserNameAndPassword()

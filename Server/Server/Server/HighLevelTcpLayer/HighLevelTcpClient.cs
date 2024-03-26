@@ -66,8 +66,8 @@ namespace Server.HighLevelTcpLayer
             while (packageBundle == null)
             {
                 await this._stream.ReadAsync(buffer, 0, buffer.Length);
-                byte[] dercyptedBuffer = decryptor.Decrypt(buffer);
-                packageBundle = _packageBundler.InsertAndRetrieveCompletePackages(dercyptedBuffer);
+                byte[] decryptedBuffer = decryptor.Decrypt(buffer);
+                packageBundle = _packageBundler.InsertAndRetrieveCompletePackages(decryptedBuffer);
             }
 
             return PackageBundleToDataStructWithTypeInfo(packageBundle);

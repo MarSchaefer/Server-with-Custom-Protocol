@@ -136,7 +136,7 @@ namespace Server.Source.Classes
                             // Lese Client Challenge Response
                             DataStructWithTypeInfo challengeResponseDataAsDataStructWithTypeInfo = await tcpClient.ReadAsymmetricDecryptedAsync(privateKey);
                             ChallengeResponseData challengeResponseData = (ChallengeResponseData)challengeResponseDataAsDataStructWithTypeInfo.StructData;
-                            string challengeSolution = Verschluesselung.StringToSha512(registeredUser.Password + randomString);
+                            string challengeSolution = HashAlgorithms.StringToSha512(registeredUser.Password + randomString);
 
                             if (challengeSolution != challengeResponseData.result)
                             {
