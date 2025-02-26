@@ -14,10 +14,10 @@ public sealed class Program
 
         var (username, password) = EnterUserNameAndPassword();
 
-        // wenn user mit namen bereits exsistiert, breche ab
+        // wenn user mit namen bereits existiert, breche ab
         if (registeredUsers.Find(x => x.UserName == username) != null)
         {
-            Console.WriteLine("User mit diesem Namen exsistiert bereits");
+            Console.WriteLine("User mit diesem Namen existiert bereits");
             return;
         }
 

@@ -13,9 +13,9 @@ namespace Server.Source.Classes
             _filePath = filePath;
         }
 
-        public void CreateDefaultFile(string fileDoesNotExsistWaring)
+        public void CreateDefaultFile(string fileDoesNotExistWaring)
         {
-            _serializer.CreateDefaultFile(fileDoesNotExsistWaring);
+            _serializer.CreateDefaultFile(fileDoesNotExistWaring);
         }
 
         public TData GetDefaultValue()

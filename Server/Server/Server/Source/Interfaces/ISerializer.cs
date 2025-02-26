@@ -6,7 +6,7 @@
 
         T LoadValue();
 
-        void CreateDefaultFile(string fileDoesNotExsistWaring);
+        void CreateDefaultFile(string fileDoesNotExistWaring);
 
         T GetDefaultValue();
     }

@@ -54,11 +54,11 @@ namespace Server.Source.Classes
             }
         }
 
-        public void CreateDefaultFile(string fileDoesNotExsistWaring)
+        public void CreateDefaultFile(string fileDoesNotExistWaring)
         {
             SaveValue(_defaultValue);
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine(fileDoesNotExsistWaring);
+            Console.WriteLine(fileDoesNotExistWaring);
             Console.ResetColor();
         }
 
