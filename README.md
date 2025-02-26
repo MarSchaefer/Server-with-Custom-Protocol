@@ -1,6 +1,6 @@
 Dies ist eine in bearbeitung befindliche Client/Server-Anwendung, geschrieben in C#.
 
-Meine Motivation war es, ein eigenes Übertragungsprotokoll zu schreiben, um Packete effizient
+Meine Motivation war es, ein eigenes, effizientes Übertragungsprotokoll zu schreiben, um Packete schnell und sicher
 verschicken zu können. Hierbei werden die Packete, so wie sie im Speicher stehen, als Gruppe zusammengefasst in
 mehrere Packete aufgeteilt, und auf der jeweiligen Gegenseite genau so wieder zusammengebaut. Dabei kann dann
 der Speicher direkt als Datentyp von Struct<T> interpretiert werden.
