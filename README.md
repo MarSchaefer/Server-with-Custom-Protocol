@@ -11,4 +11,5 @@ Die Anmeldung ist zusätzlich mittels RSA-Verschlüsselung gesichert.
 In Zukunft, wenn ich Zeit habe, werde ich noch die tokenbasierte AES-Verschlüsselung implementieren, nachdem sich
 der Benutzer momentan schon Anmelden kann und ein Token zugeteilt bekommt.
 
+Das ganze ist nur ein Hobby-Projekt.
 
