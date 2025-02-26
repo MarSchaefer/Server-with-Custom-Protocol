@@ -3,7 +3,7 @@ Dies ist eine in bearbeitung befindliche Client/Server-Anwendung, geschrieben in
 Meine Motivation war es, ein eigenes, effizientes Übertragungsprotokoll zu schreiben, um Packete schnell und sicher
 verschicken zu können. Hierbei werden die Packete, so wie sie im Speicher stehen, als Gruppe zusammengefasst in
 mehrere Packete aufgeteilt, und auf der jeweiligen Gegenseite genau so wieder zusammengebaut. Dabei kann dann
-der Speicher direkt als Datentyp von Struct<T> interpretiert werden.
+der Speicher direkt als Datentyp ("Struct of T") interpretiert werden.
 
 Anbei ist schon ein tokenbasiertes Anmeldeverfahren mittels Challenge-Response-Authentifizierung implementiert.
 Die Anmeldung ist zusätzlich mittels RSA-Verschlüsselung gesichert.
